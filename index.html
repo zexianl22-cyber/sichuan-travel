@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四川旅游规划 - 成都·阿坝州·乐山</title>
+<style>
+:root {
+  --primary: #c0392b; --primary-light: #e74c3c;
+  --bg: #fdf6f0; --card: #ffffff; --text: #2c3e50;
+  --text-light: #5a6c7d; --border: #e8d5c4;
+  --accent1: #27ae60; --accent2: #2980b9; --accent3: #8e44ad;
+  --shadow: 0 2px 16px rgba(0,0,0,0.07); --radius: 14px;
+  --transition: 0.25s ease;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.hero { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 40%, #0f3460 100%); color: #fff; text-align: center; padding: 60px 24px 50px; position: relative; overflow: hidden; }
+.hero h1 { font-size: 2.6rem; font-weight: 800; letter-spacing: 3px; margin-bottom: 10px; }
+.hero .subtitle { font-size: 1.05rem; opacity: 0.8; max-width: 640px; margin: 0 auto; }
+.hero .badges { margin-top: 22px; display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.hero .badge { background: rgba(255,255,255,0.12); backdrop-filter: blur(6px); border: 1px solid rgba(255,255,255,0.2); border-radius: 30px; padding: 8px 22px; font-size: 0.9rem; letter-spacing: 1px; }
+.app-layout { display: flex; max-width: 1400px; margin: 0 auto; gap: 0; }
+.sidebar { width: 380px; min-width: 380px; background: #fff; border-right: 1px solid var(--border); position: sticky; top: 60px; height: calc(100vh - 60px); overflow-y: auto; display: flex; flex-direction: column; z-index: 50; }
+.main-content { flex: 1; min-width: 0; padding: 24px 32px 48px; }
+.sidebar-header { padding: 20px 20px 14px; border-bottom: 1px solid var(--border); background: #fff; position: sticky; top: 0; z-index: 10; }
+.sidebar-header h3 { font-size: 1.1rem; color: var(--primary); }
+.sidebar-header .count { font-size: 0.8rem; color: var(--text-light); }
+.city-section { padding: 6px 20px; }
+.city-section h4 { font-size: 0.95rem; color: var(--text); margin: 12px 0 6px; padding-bottom: 4px; border-bottom: 2px solid var(--border); }
+.attraction-check { display: flex; align-items: flex-start; gap: 8px; padding: 7px 0; cursor: pointer; font-size: 0.85rem; transition: var(--transition); }
+.attraction-check:hover { color: var(--primary); }
+.attraction-check input[type="checkbox"] { margin-top: 3px; accent-color: var(--primary); width: 15px; height: 15px; cursor: pointer; }
+.attraction-check .name { flex: 1; }
+.attraction-check .day-hint { font-size: 0.7rem; color: #999; white-space: nowrap; }
+.sidebar-footer { padding: 16px 20px; border-top: 1px solid var(--border); background: #fff; position: sticky; bottom: 0; z-index: 10; }
+.btn-plan { width: 100%; padding: 12px; border: none; border-radius: 10px; background: var(--primary); color: #fff; font-size: 1rem; font-weight: 700; cursor: pointer; transition: var(--transition); font-family: inherit; }
+.btn-plan:hover { background: var(--primary-light); transform: translateY(-1px); }
+.btn-plan:disabled { background: #ccc; cursor: not-allowed; }
+.btn-clear { width: 100%; margin-top: 8px; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: #fff; color: #999; font-size: 0.8rem; cursor: pointer; font-family: inherit; }
+.result-panel { display: none; background: #fff; border-radius: var(--radius); box-shadow: var(--shadow); border: 2px solid var(--primary); padding: 28px; margin-bottom: 32px; }
+.result-panel.show { display: block; }
+.result-panel h2 { color: var(--primary); margin-bottom: 8px; font-size: 1.3rem; }
+.result-summary { display: flex; gap: 24px; flex-wrap: wrap; margin: 16px 0 20px; }
+.result-stat { text-align: center; }
+.result-stat .big { font-size: 1.8rem; font-weight: 800; color: var(--primary); }
+.result-stat .lbl { font-size: 0.75rem; color: var(--text-light); }
+.day-plan { margin: 18px 0; }
+.day-plan h4 { background: var(--primary); color: #fff; padding: 8px 16px; border-radius: 8px; display: inline-block; font-size: 0.9rem; margin-bottom: 10px; }
+.route-step { display: flex; align-items: center; gap: 12px; padding: 10px 14px; background: #faf5ef; border-radius: 8px; margin-bottom: 6px; font-size: 0.9rem; }
+.route-step .seq { width: 26px; height: 26px; border-radius: 50%; background: var(--accent1); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+.route-step .travel-time { font-size: 0.75rem; color: #999; margin-left: auto; white-space: nowrap; }
+.warning-box { background: #fff8e1; border: 1px solid #ffe082; border-radius: 12px; padding: 16px 20px; margin-top: 20px; font-size: 0.85rem; color: #5d4037; }
+.warning-box strong { color: #f57f17; }
+nav.tabs { position: sticky; top: 0; z-index: 100; background: #fff; box-shadow: 0 2px 12px rgba(0,0,0,0.08); display: flex; justify-content: center; gap: 0; flex-wrap: wrap; }
+nav.tabs button { border: none; background: transparent; padding: 16px 28px; font-size: 0.95rem; font-weight: 600; color: var(--text-light); cursor: pointer; transition: var(--transition); position: relative; font-family: inherit; }
+nav.tabs button:hover { color: var(--primary); }
+nav.tabs button.active { color: var(--primary); }
+nav.tabs button.active::after { content: ""; position: absolute; bottom: 0; left: 20%; width: 60%; height: 3px; background: var(--primary); border-radius: 3px 3px 0 0; }
+.section-intro { text-align: center; margin: 12px 0 28px; }
+.section-intro h2 { font-size: 1.8rem; color: var(--primary); margin-bottom: 6px; }
+.section-intro p { color: var(--text-light); max-width: 650px; margin: 0 auto; font-size: 0.9rem; }
+.overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-bottom: 32px; }
+.overview-card { background: var(--card); border-radius: var(--radius); padding: 18px 14px; text-align: center; box-shadow: var(--shadow); border: 1px solid var(--border); }
+.overview-card .icon { font-size: 1.8rem; margin-bottom: 4px; }
+.overview-card .value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+.overview-card .label { font-size: 0.75rem; color: var(--text-light); margin-top: 2px; }
+.attraction-list { display: flex; flex-direction: column; gap: 20px; }
+.attraction-card { background: var(--card); border-radius: var(--radius); box-shadow: var(--shadow); border: 1px solid var(--border); overflow: hidden; transition: var(--transition); }
+.attraction-card:hover { box-shadow: 0 6px 28px rgba(0,0,0,0.12); }
+.card-header { padding: 20px 24px; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.card-header .rank { background: var(--primary); color: #fff; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.9rem; flex-shrink: 0; }
+.card-header h3 { font-size: 1.15rem; flex: 1; min-width: 200px; }
+.card-header .rating { color: #f39c12; font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
+.card-body { padding: 22px 24px; }
+.card-body .desc { margin-bottom: 16px; color: var(--text-light); font-size: 0.9rem; }
+.highlights-box { background: #f0faf4; border-radius: 10px; padding: 14px 18px; margin-bottom: 16px; font-size: 0.85rem; color: #1a5c34; line-height: 1.8; }
+.highlights-box strong { color: var(--accent1); }
+.info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.info-item { background: #faf5ef; border-radius: 10px; padding: 12px 16px; display: flex; flex-direction: column; gap: 3px; }
+.info-item .info-label { font-size: 0.75rem; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+.info-item .info-value { font-size: 0.88rem; font-weight: 600; color: var(--text); }
+.info-item.transport { grid-column: 1 / -1; }
+.tips-box-card { background: #fff8e1; border: 1px solid #ffe082; border-radius: 10px; padding: 12px 16px; margin-top: 12px; font-size: 0.83rem; color: #5d4037; }
+.tips-box-card strong { color: #f57f17; }
+.tag-list { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.tag { background: #eaf4f0; color: var(--accent1); padding: 3px 10px; border-radius: 14px; font-size: 0.75rem; font-weight: 600; }
+.weather-panel { background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); border: 1px solid #e8d5c4; padding: 24px; margin-bottom: 28px; }
+.weather-panel h4 { font-size: 1.1rem; color: #c0392b; margin-bottom: 16px; }
+.weather-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; }
+.weather-card { background: #faf5ef; border-radius: 10px; padding: 14px 16px; text-align: center; }
+.weather-card .w-label { font-size: 0.85rem; font-weight: 700; color: #2c3e50; margin-bottom: 6px; }
+.weather-card .w-temp { font-size: 0.9rem; font-weight: 600; color: #c0392b; margin-bottom: 3px; }
+.weather-card .w-rain { font-size: 0.78rem; color: #2980b9; margin-bottom: 4px; }
+.weather-card .w-desc { font-size: 0.78rem; color: #5a6c7d; line-height: 1.5; margin-bottom: 6px; }
+.weather-card .w-score { font-size: 0.8rem; font-weight: 700; color: #27ae60; }
+.transport-detail { display: flex; flex-direction: column; gap: 6px; margin-top: 4px; }
+.td-item { background: #fff; border-radius: 6px; padding: 6px 10px; font-size: 0.82rem; color: #2c3e50; border-left: 3px solid #27ae60; }
+.season-note-box { background: #e8f5e9; border: 1px solid #a5d6a7; border-radius: 10px; padding: 12px 16px; margin-top: 12px; font-size: 0.83rem; color: #2e7d32; }
+.season-note-box strong { color: #1b5e20; }
+.tips-mega-panel { background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.07); border: 1px solid #e8d5c4; padding: 24px; margin-bottom: 28px; }
+.tips-mega-panel h4 { font-size: 1.15rem; color: #c0392b; margin-bottom: 18px; }
+.tips-section { margin-bottom: 20px; }
+.tips-section h5 { font-size: 0.95rem; color: #2c3e50; margin-bottom: 10px; padding-bottom: 4px; border-bottom: 1px solid #e8d5c4; }
+.tips-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 10px; }
+.tip-card { background: #faf5ef; border-radius: 10px; padding: 14px 16px; }
+.tip-card strong { display: block; font-size: 0.88rem; color: #c0392b; margin-bottom: 4px; }
+.tip-card p { font-size: 0.8rem; color: #5a6c7d; line-height: 1.6; margin: 0; }
+.tip-list { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.tip-list li { font-size: 0.83rem; color: #5a6c7d; padding: 6px 0 6px 18px; position: relative; }
+.tip-list li::before { content: "▸"; position: absolute; left: 0; color: #c0392b; font-weight: 700; }
+
+footer { text-align: center; padding: 36px 24px; color: #aaa; font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
+@media (max-width: 960px) { .app-layout { flex-direction: column; } .sidebar { width: 100%; min-width: unset; position: relative; top: auto; height: auto; max-height: 50vh; border-right: none; border-bottom: 1px solid var(--border); } .main-content { padding: 16px; } .hero h1 { font-size: 1.6rem; } nav.tabs button { padding: 12px 16px; font-size: 0.85rem; } }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <h1>🏔️ 四川旅游全攻略</h1>
+  <p class="subtitle">成都 · 阿坝州 · 乐山 — 自选景点、智能推荐最优路线与游玩顺序</p>
+  <div class="badges">
+    <span class="badge">🐼 成都 11 景</span>
+    <span class="badge">🏔️ 阿坝 6 景</span>
+    <span class="badge">🪷 乐山 6 景</span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabNav">
+  <button class="active" data-tab="chengdu">🐼 成都</button>
+  <button data-tab="aba">🏔️ 阿坝州</button>
+  <button data-tab="leshan">🪷 乐山</button>
+  <button data-tab="planner">🗺️ 路线概览</button>
+</nav>
+
+<div class="app-layout">
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h3>✅ 勾选想去的景点</h3>
+      <span class="count" id="selectedCount">已选 0 个</span>
+    </div>
+    <div id="checklist"></div>
+    <div class="sidebar-footer">
+      <button class="btn-plan" id="btnPlan" disabled onclick="generatePlan()">📋 生成推荐路线</button>
+      <button class="btn-clear" onclick="clearAll()">清空选择</button>
+    </div>
+  </aside>
+  <main class="main-content" id="tabContent"></main>
+</div>
+
+<footer>
+  <p>⚠️ 门票和运营时间为 2026 年参考数据，出行前请通过景区官方平台确认最新信息。九寨沟限流需提前 7 天预约，峨眉山金顶住宿旺季需提前 1–2 周预订。</p>
+</footer>
+
+<script>
+// ===== DATA =====
+var attractions = [{"id": "cd1", "city": "成都", "name": "大熊猫繁育研究基地", "rating": "⭐4.6", "tags": "亲子必去·早上最佳·观光车", "desc": "全球最大的人工大熊猫繁育基地，占地 1000 余亩，饲养大熊猫 200 余只。园区模拟大熊猫野外栖息环境，设有阳光产房（可看到幼年熊猫）、月亮产房、熊猫厨房等。早晨 7:30–9:30 是熊猫进食最活跃时段。园区内还有小熊猫（红熊猫）活动区和天鹅湖。", "highlights": "① 月亮产房看熊猫幼崽（6–9 月出生季最佳）② 太阳产房观成年大熊猫进食 ③ 小熊猫放养区近距离互动 ④ 熊猫科学探秘馆", "ticket": "¥55 成人 / ¥27 学生（60 岁以上及 1.3m 以下儿童免费）", "hours": "07:30–18:00（17:00 停止入园）全年无休", "time": "3–4 小时", "transport": "地铁 3 号线「熊猫大道」站 A 口 → 景区直通车 D025 路约 15 分钟（¥2）；或市区打车约 ¥40–50（40 分钟）；自驾导航至「熊猫基地停车场」", "tips": "务必 7:30 开门前到达排队；园区面积大建议乘观光车（¥10/人）；夏天熊猫怕热 10 点后回室内，想看室外活动务必早到", "transportDetail": {"metro": "🚇 地铁 3 号线「熊猫大道」站 A 口出 → 换乘景区直通车 D025 路约 15 分钟（¥2）", "bus": "🚌 公交 198/198A 路直达熊猫基地站", "taxi": "🚕 市区打车约 40–50 元，约 40 分钟", "drive": "🚗 导航至「熊猫基地停车场」，停车 ¥10/次", "train": "", "other": ""}, "bestSeason": "🌤️ 全年适宜，春秋最佳", "seasonNote": "夏季熊猫怕热 10 点后回室内；冬季熊猫活跃时段更长"}, {"id": "cd2", "city": "成都", "name": "武侯祠", "rating": "⭐4.5", "tags": "三国文化·红墙拍照·紧邻锦里", "desc": "中国唯一的君臣合祀祠庙，建于公元 223 年，纪念诸葛亮与刘备。占地 15 万平方米，祠内保存唐碑「三绝碑」，岳飞手书《出师表》刻石是镇馆之宝。红墙夹道竹影斑驳间光影绝美，是出片圣地。", "highlights": "① 三绝碑（唐代文物）② 红墙夹道拍照 ③ 岳飞手书《出师表》刻石 ④ 刘备墓（惠陵）⑤ 三国文化陈列馆", "ticket": "¥50 成人 / ¥25 学生（60 岁以上及 1.3m 以下儿童免费）", "hours": "09:00–18:00（17:00 停止入园）全年开放", "time": "2–2.5 小时", "transport": "地铁 3/5 号线「高升桥」站 D 口步行 800 米（约 10 分钟）；紧邻锦里，从出口直接进入锦里", "tips": "建议请讲解（¥50–100）或租讲解器，否则走马观花体验大打折扣；下午 3–4 点红墙光线最佳", "transportDetail": {"metro": "🚇 地铁 3/5 号线「高升桥」站 D 口出，步行约 800 米（10 分钟）", "bus": "🚌 公交 1/57/82/334 路「武侯祠」站", "taxi": "🚕 市区打车约 15–25 元", "drive": "🚗 导航至武侯祠停车场（车位紧张，建议公交）", "train": "", "other": "🚶 紧邻锦里，出口即达"}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "春季花季+秋季银杏季最佳；夏季炎热但树荫多"}, {"id": "cd3", "city": "成都", "name": "锦里古街", "rating": "⭐4.4", "tags": "免费·美食街·夜景·手工艺品", "desc": "西蜀历史上最古老的商业街，全长 550 米，明清建筑风格。白天川剧变脸、皮影戏，晚上灯笼亮起如梦似幻。小吃密集：三大炮、糖油果子、伤心凉粉、蛋烘糕、钵钵鸡几乎集齐成都所有名小吃。", "highlights": "① 三大炮制作表演 ② 灯笼夜景（天黑后约 19:30）③ 茶馆看川剧变脸 ④ 蜀绣/漆器手信购买", "ticket": "免费", "hours": "全天开放（店铺约 10:00–22:00，小吃摊约 11:00–21:00）", "time": "1.5–2 小时（含用餐）", "transport": "与武侯祠一墙之隔，建议武侯祠结束后无缝衔接；地铁 3/5 号线「高升桥」站 D 口步行约 800 米", "tips": "小吃不要一次买太多，一样尝一点；周末节假日人极多，尽量工作日傍晚去；蜀绣手信记得砍价 30%–50%", "transportDetail": {"metro": "🚇 地铁 3/5 号线「高升桥」站 D 口步行约 800 米", "bus": "🚌 同武侯祠公交线路", "taxi": "🚕 同武侯祠", "drive": "🚗 同武侯祠停车场", "train": "", "other": "🚶 与武侯祠一墙之隔，无缝衔接"}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "春秋夜晚灯笼最出片；夏季闷热但小吃冰粉解暑"}, {"id": "cd4", "city": "成都", "name": "宽窄巷子", "rating": "⭐4.5", "tags": "免费·清朝古街·川剧变脸·文创", "desc": "由宽巷子、窄巷子、井巷子三条平行清朝古街组成，康熙年间少城仅存遗存。宽巷子主打「闲生活」（茶馆、精品酒店），窄巷子主打「慢生活」（酒吧、文创小店），井巷子主打「新生活」（艺术空间、创意市集）。拴马石、老门头、砖雕均为清代遗物。", "highlights": "① 恺庐老门头（宽巷子标志）② 见山书院喝茶 ③ 熊猫邮局寄明信片 ④ 窄巷子小洋楼广场 ⑤ 井巷子「砖」文化墙", "ticket": "免费", "hours": "全天开放（店铺约 10:00–22:00，酒吧至凌晨）", "time": "2–3 小时", "transport": "地铁 4 号线「宽窄巷子」站 B 口出站即到；距锦里约 3 公里，打车约 ¥15", "tips": "早上 9–10 点人最少适合拍照；晚上找茶馆看川剧变脸（约 ¥40–80 含茶）；附近魁星楼街是本地人吃串串好去处", "transportDetail": {"metro": "🚇 地铁 4 号线「宽窄巷子」站 B 口出站即到；地铁 2 号线「通惠门」站 C 口步行约 500 米", "bus": "🚌 公交 5/13/43/47/58/64/78/81 路「宽窄巷子」站", "taxi": "🚕 市区打车约 15–20 元", "drive": "🚗 周边停车场较多（¥10–20/h），周末车位紧张", "train": "", "other": "🚶 距锦里约 3 公里，步行 35 分钟或骑行 15 分钟"}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "春秋最舒适；夏季夜晚茶馆纳凉别有风味"}, {"id": "cd5", "city": "成都", "name": "杜甫草堂", "rating": "⭐4.4", "tags": "唐诗文化·园林景观·清静", "desc": "唐代大诗人杜甫为避安史之乱，于公元 759 年流寓成都时居住近四年的故居，在此创作 240 余首诗。占地近 300 亩，完整保留川西园林风貌。大雅堂内陈列 12 尊历代著名诗人雕塑。", "highlights": "① 茅屋故居（杜甫真正住过的位置）② 花径红墙（比武侯祠人少）③ 大雅堂 12 诗人雕塑 ④ 万佛楼俯瞰全景 ⑤ 盆景园", "ticket": "¥50 成人 / ¥25 学生（60 岁以上及 1.3m 以下免费）", "hours": "09:00–18:00（17:00 停止入园）", "time": "2–2.5 小时", "transport": "地铁 4 号线「草堂北路」站 B 口步行 600 米；距宽窄巷子约 3 公里", "tips": "对诗词园林感兴趣的必去，否则可能觉得单调；自备驱蚊水；北门外有「陈麻婆豆腐」旗舰店", "transportDetail": {"metro": "🚇 地铁 4 号线「草堂北路」站 B 口步行约 600 米", "bus": "🚌 公交 19/35/58/82/151/165 路「杜甫草堂」站", "taxi": "🚕 市区打车约 15–25 元", "drive": "🚗 北门和南门均有停车场", "train": "", "other": ""}, "bestSeason": "🌸 春季（3–5 月）🌿 秋季（9–11 月）", "seasonNote": "春季百花盛开；秋季银杏金黄；夏季植被葱郁但蚊虫多"}, {"id": "cd6", "city": "成都", "name": "青城山—都江堰", "rating": "⭐4.7", "tags": "世界遗产·一日游·城际列车·道教", "desc": "2000 年列入世界遗产。青城山是中国道教发源地，前山道观密集、后山自然风光；都江堰由鱼嘴、飞沙堰、宝瓶口组成，2250 余年仍在运转，灌溉成都平原千万亩良田。", "highlights": "青城山：① 天师洞（道教祖庭）② 老君阁全山最高点 ③ 月城湖泛舟 // 都江堰：④ 鱼嘴分水 ⑤ 安澜索桥 ⑥ 二王庙 ⑦ 离堆公园", "ticket": "青城山 ¥80 / 都江堰 ¥80；联票 ¥155（24h 有效）", "hours": "青城山 08:00–17:30 / 都江堰 08:00–18:00（夏季延长至 18:30）", "time": "一整天（8–10 小时），上午都江堰 + 下午青城山", "transport": "成都「犀浦」站 → 城际列车至「青城山」站约 30 分钟（¥10）；自驾经成灌高速约 1 小时；两景区间打车约 20 分钟", "tips": "上午先去都江堰（顺光看鱼嘴），下午爬青城山；索道上 ¥35/下 ¥30；穿运动鞋", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 自驾经成灌高速约 1 小时（60 公里）；两景区间打车约 20 分钟（¥20–30）", "train": "🚄 成都「犀浦」站乘城际列车 →「青城山」站约 30 分钟（¥10）或 →「离堆公园」站（都江堰）", "other": "青城山索道：上 ¥35 / 下 ¥30；景区观光车 ¥10–20"}, "bestSeason": "🌿 4–6 月、9–11 月", "seasonNote": "夏季青城山避暑最佳；冬季都江堰水量小但依然壮观；春节庙会热闹"}, {"id": "cd7", "city": "成都", "name": "金沙遗址博物馆", "rating": "⭐4.5", "tags": "考古·古蜀文明·博物馆", "desc": "2001 年重大考古发现，距今约 3000–2600 年，古蜀王国都邑遗址。核心展品「太阳神鸟」金饰（厚度仅 0.02cm）已是中国文化遗产标志。遗址馆保留考古发掘现场原貌。", "highlights": "① 太阳神鸟金饰（镇馆之宝）② 黄金面具 ③ 十节玉琮 ④ 考古发掘现场（遗迹馆）⑤ 千年乌木林", "ticket": "¥70 成人 / ¥35 学生（60 岁以上免费）", "hours": "09:00–18:00（17:00 停止入园）周一闭馆（法定节假日除外）", "time": "2–3 小时", "transport": "地铁 7 号线「金沙博物馆」站 C 口直达；可与杜甫草堂安排在一天（相距 5 公里）", "tips": "务必租讲解器或跟讲解团（¥20）；周一闭馆！安排行程时注意", "transportDetail": {"metro": "🚇 地铁 7 号线「金沙博物馆」站 C 口出站即到（南门）", "bus": "🚌 公交 5/7/82/83/96/111/311 路可达", "taxi": "🚕 市区打车约 20–30 元", "drive": "🚗 南门/北门均有停车场 ¥10/次", "train": "", "other": ""}, "bestSeason": "🌤️ 全年适宜（室内为主）", "seasonNote": "周一闭馆！避开节假日人流高峰"}, {"id": "cd8", "city": "成都", "name": "春熙路 / 太古里", "rating": "⭐4.5", "tags": "购物·网红打卡·免费·大慈寺", "desc": "成都最核心商圈。IFS 爬墙大熊猫是标志性打卡点。太古里在保留 6 座古建筑（大慈寺等）之间融入现代设计。大慈寺始建于魏晋，玄奘曾在此受戒。", "highlights": "① IFS 爬墙大熊猫拍照 ② 太古里 3D 大屏 ③ 大慈寺免费参观 ④ 方所书店（地下最美书店）⑤ 广东会馆展", "ticket": "免费（大慈寺也免费）", "hours": "全天（商场约 10:00–22:00，酒吧至凌晨 2:00）", "time": "2–3 小时", "transport": "地铁 2/3 号线「春熙路」站直达；IFS、太古里、大慈寺步行互通", "tips": "中午 11 点前和晚上 8 点后拍熊猫人少；附近三圣街、镗钯街是本地美食聚集区", "transportDetail": {"metro": "🚇 地铁 2/3 号线「春熙路」站直达（IFS 负一楼直通地铁）", "bus": "🚌 公交 3/4/8/20/37/43/47/58/81/98 路等多条线路", "taxi": "🚕 市区核心区域打车约 10–20 元", "drive": "🚗 IFS/太古里地下停车场 ¥10–15/h", "train": "", "other": "🚶 IFS、太古里、大慈寺步行互通，无需额外交通"}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "春秋逛街最舒服；夏季空调商场避暑；冬季太古里圣诞/新年装饰美"}, {"id": "cd9", "city": "成都", "name": "龙泉山城市森林公园·高空栈道", "rating": "⭐4.6", "tags": "自然风光·徒步·日落·免费·网红打卡", "desc": "位于成都龙泉山城市森林公园丹景台片区，全长 2.8 公里的高空玻璃栈道盘旋于龙泉山脉之上，海拔约 900 米。栈道悬挑于山脊外侧，脚下是葱郁森林和蜿蜒的沱江，天气晴好时可远眺西岭雪山和成都平原天际线。丹景台「城市之眼」观景平台是标志性建筑，形似一只仰望星空的眼睛。黄昏时分日落金山+城市灯光渐起，是成都最佳日落观赏地之一。山间有完善的森林步道体系，适合半日徒步。", "highlights": "① 丹景台「城市之眼」观景平台（360°全景）② 高空玻璃栈道（悬挑段拍照最佳）③ 日落观景（18:00–19:30 黄金时段）④ 森林步道徒步 ⑤ 远眺西岭雪山（能见度高时）", "ticket": "免费（丹景台需预约，公众号「龙泉山城市森林公园」）", "hours": "丹景台 09:00–17:30（周一闭馆）；栈道和步道全天开放", "time": "3–4 小时（含往返交通建议半天）", "transport": "成都市区出发约 1–1.5 小时车程（50 公里）；建议自驾导航至「丹景台停车场」；地铁 2 号线「龙泉驿」站转乘公交 L013 路至「丹景台」约 1 小时", "tips": "下午 3 点出发，4:30 到达，徒步到日落刚好；山上温差大带件外套；周末人较多建议工作日去；栈道恐高者慎入", "transportDetail": {"metro": "", "bus": "🚌 地铁 2 号线「龙泉驿」站 B 口 → 公交 L013 路至「丹景台」约 40 分钟", "taxi": "🚕 龙泉驿地铁站打车至丹景台约 ¥60–80（40 分钟）", "drive": "🚗 自驾导航「丹景台停车场」约 1 小时（50 公里），停车 ¥10/次", "train": "", "other": "🚶 栈道全程 2.8 公里，步行约 1 小时；观景台有咖啡厅"}, "bestSeason": "🌿 3–6 月、9–11 月", "seasonNote": "春秋季能见度最高，远眺雪山概率大；夏季午后多云适合避暑；冬季偶尔有雪景但冷", "coords": "104.38,30.52"}, {"id": "cd10", "city": "成都", "name": "三星堆博物馆", "rating": "⭐4.9", "tags": "考古·古蜀文明·世界级·必去·新馆", "desc": "三星堆遗址距今约 4800–2600 年，是古蜀文明最具代表性的考古发现，被称为「世界第九大奇迹」。2023 年开放的新馆建筑面积 5.44 万平方米，展出青铜神树（高 3.96 米）、青铜大立人（高 2.62 米）、黄金权杖、青铜纵目面具等 1500 余件文物。2021–2022 年新发现的 6 个祭祀坑出土文物也在新馆首次集中亮相。距成都市区约 40 公里，位于广汉市，但从成都出发是必去的半日/一日游目的地。", "highlights": "① 青铜神树（高 3.96 米，世界青铜文物之最）② 青铜大立人像 ③ 黄金面具（2022 年新发现）④ 青铜纵目面具（宽 1.38 米）⑤ 黄金权杖 ⑥ 新馆建筑本身（螺旋坡道设计）", "ticket": "¥72 成人 / ¥36 学生（60 岁以上及 1.3m 以下免费）；需提前在公众号「三星堆博物馆」预约", "hours": "08:30–18:00（17:00 停止入园）；除夕闭馆", "time": "3–4 小时", "transport": "成都东站乘高铁至「广汉北」站约 20 分钟（¥15），出站打车约 15 分钟（¥15–20）到博物馆；或成都昭觉寺车站乘大巴至广汉约 50 分钟（¥18）；自驾经成绵高速约 50 分钟（40 公里）", "tips": "务必提前 3–5 天在公众号预约（旺季一票难求）；建议租讲解器（¥20）或跟讲解团，否则很多细节会错过；新馆非常大，预留充足时间；馆内有文创商店可买青铜面具周边", "transportDetail": {"metro": "", "bus": "🚌 成都「昭觉寺汽车站」乘大巴至广汉约 50 分钟（¥18），下车打车 10 分钟到博物馆", "taxi": "🚕 成都市区直接打车约 ¥100–130（50 分钟）", "drive": "🚗 自驾经成绵高速（G5）约 50 分钟（40 公里）；博物馆停车场 ¥10/次", "train": "🚄 成都东站 →「广汉北」站高铁 20 分钟（¥15），出站打车 15 分钟（¥15–20）", "other": "⚠️ 三星堆位于广汉市（非成都市区），但距成都仅 40 公里，是成都出发必游目的地"}, "bestSeason": "🌤️ 全年适宜（室内为主）", "seasonNote": "全年皆可参观；节假日上午 9 点前到可避开人流高峰；周一正常开放（不闭馆）"}, {"id": "cd11", "city": "成都", "name": "天府艺术公园", "rating": "⭐4.5", "tags": "自然风光·建筑美学·免费·湖泊·艺术", "desc": "位于成都金牛区，占地 3033 亩，是一座集湖泊湿地、艺术场馆与城市公园于一体的大型公共空间。核心景观包括：天府美术馆（形如一朵绽放的芙蓉花，屋顶可上人观湖）、当代艺术馆（螺旋坡道直通屋顶）、蜀园（川西园林缩影）。公园中心的迎桂湖面积超 200 亩，环湖步道约 3 公里，水鸟栖息其间。春季湖畔樱花盛开，夏季荷花满池，秋季银杏金黄倒映湖中。旁边的易园园林博物馆免费开放，是隐藏的拍照宝地。", "highlights": "① 天府美术馆「芙蓉花」造型（屋顶观湖平台）② 当代艺术馆螺旋坡道 ③ 迎桂湖环湖步道（3 公里）④ 蜀园（川西园林）⑤ 易园（免费园林博物馆）⑥ 落日晚霞倒映湖面", "ticket": "公园免费；美术馆展览需预约（公众号「成都市美术馆」），常设展免费、特展 ¥30–80", "hours": "公园全天开放；美术馆 10:00–17:00（周一闭馆）", "time": "2–3 小时（含逛美术馆）", "transport": "地铁 2 号线「迎宾大道」站 D 口出步行约 1.2 公里（15 分钟）；或地铁 6 号线「西华大道」站步行约 1 公里；公交 48/119/209/656 路可达", "tips": "美术馆建筑本身比展品更值得看；环湖步道很适合傍晚散步看日落；春天樱花季（3 月）最美；易园人少适合拍照；公园内有咖啡馆和餐厅", "transportDetail": {"metro": "🚇 地铁 2 号线「迎宾大道」站 D 口步行 1.2 公里（15 分钟）；地铁 6 号线「西华大道」站步行 1 公里", "bus": "🚌 公交 48/119/209/656 路「天府艺术公园」站", "taxi": "🚕 市区打车约 ¥25–40（30 分钟）", "drive": "🚗 导航至「天府艺术公园停车场」，停车 ¥5–10/次", "train": "", "other": "🚶 环湖步道 3 公里，步行约 40 分钟；美术馆之间有电瓶车接驳"}, "bestSeason": "🌸 3–4 月（樱花）、☀️ 6–8 月（荷花）、🍂 10–11 月（银杏）", "seasonNote": "春季樱花+秋季银杏是最美两季；夏季荷花满池但炎热；冬季略显萧条但人少清静"}, {"id": "ab1", "city": "阿坝州", "name": "九寨沟", "rating": "⭐5.0", "tags": "世界遗产·必去·一整天·观光车·需要住宿", "desc": "1992 年列入世界自然遗产，以「九寨归来不看水」闻名。景区 Y 字形分布：树正沟、则查洼沟、日则沟。翠海、叠瀑、彩林、雪峰、藏情五绝并存。地震后修复已于 2021 年全面开放。", "highlights": "① 五花海（九寨一绝）② 诺日朗瀑布（最宽钙华瀑布）③ 珍珠滩瀑布（西游记取景地）④ 长海（最高最大最深的湖）⑤ 五彩池（最小但颜色最艳）⑥ 树正群海", "ticket": "旺季（4.1–11.15）¥169+观光车¥90=¥259；淡季 ¥80+¥80=¥160", "hours": "旺季 07:30–17:00 / 淡季 08:30–17:00（限流 4.1 万人/天，必提前预约）", "time": "一整天（7:30 入园，17:00 出园，约 7–9 小时）", "transport": "成都新南门/茶店子车站大巴约 7–9h（¥150–180）；飞机至九黄机场约 1h（¥600–1200）+ 1.5h 车程到沟口", "tips": "提前 7 天「阿坝旅游网」公众号实名预约；入园后先乘观光车到最远点由上往下游览最省力；诺日朗中心站有餐厅（盒饭 ¥40–60）", "transportDetail": {"metro": "", "bus": "🚌 成都新南门/茶店子车站乘大巴约 7–9 小时（¥150–180），每日多班", "taxi": "", "drive": "🚗 成都出发经都汶高速+G213+九寨沟旅游环线约 7–9 小时（480 公里）", "train": "", "other": "✈️ 成都双流机场 → 九黄机场约 1 小时（¥600–1200），机场至沟口约 1.5 小时车程（¥300–400 包车）；景区内观光车全覆盖 ¥90"}, "bestSeason": "🍂 9–11 月（秋季彩林）", "seasonNote": "10 月中下旬彩林+水量充沛=最美季节；夏季水量大但人多；冬季雪景静谧人少半价"}, {"id": "ab2", "city": "阿坝州", "name": "黄龙", "rating": "⭐4.8", "tags": "世界遗产·高海拔·索道·钙华彩池", "desc": "1992 年与九寨沟一同列入世界自然遗产。核心景观是 3.6 公里钙华滩上 3400 多个彩池。最高景点五彩池海拔 3576 米，是黄龙最震撼景观。单线分布：迎宾池→飞瀑流辉→金沙铺地→争艳池→黄龙寺→五彩池。", "highlights": "① 五彩池（693 个彩池群，终点必到）② 金沙铺地（1300 米钙华滩，世界最长）③ 争艳池 ④ 黄龙古寺（明代）⑤ 飞瀑流辉", "ticket": "旺季（4.1–11.15）¥170；淡季 ¥60；上行索道 ¥80 / 下行 ¥40", "hours": "08:00–17:00（旺季）/ 09:00–16:30（淡季）；15:30 停止入园", "time": "4–6 小时", "transport": "九寨沟沟口到黄龙约 2.5h 车程（包车 ¥400–500 往返）；松潘县城到黄龙约 40 分钟", "tips": "海拔 3576m 预防高反，建议索道上步行下；山上天气多变需带冲锋衣+雨衣；12 月至次年 3 月可能因大雪关闭", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 九寨沟沟口至黄龙约 2.5 小时（130 公里）；松潘县城至黄龙约 40 分钟", "train": "", "other": "✈️ 九黄机场至黄龙约 1 小时车程；上山索道 ¥80/下行 ¥40；包车九寨+黄龙一日往返约 ¥400–500"}, "bestSeason": "🍂 9–10 月、🌸 5–6 月", "seasonNote": "秋季水量充沛彩池饱满；12–3 月可能因大雪关闭；夏季人多"}, {"id": "ab3", "city": "阿坝州", "name": "四姑娘山", "rating": "⭐4.7", "tags": "雪山·徒步·三条沟·摄影", "desc": "四座连绵山峰组成，幺妹峰 6250 米为邛崃山脉最高峰，被誉为「蜀山之后」。三条沟：双桥沟（全程观光车看十几座雪山）、长坪沟（徒步骑马到幺妹峰脚下）、海子沟（登山者和资深徒步者）。", "highlights": "双桥沟：① 红杉林（雪山环绕）② 布达拉峰 ③ 四姑娜措倒影 // 长坪沟：④ 枯树滩 ⑤ 木骡子草甸 // 海子沟：⑥ 大海子 ⑦ 花海子", "ticket": "双桥沟 ¥150（含观光车）/ 长坪沟 ¥90（含观光车）/ 海子沟 ¥60", "hours": "08:00–17:30（15:00 停止入园）", "time": "双桥沟 4–5h / 长坪沟 5–7h（徒步）/ 海子沟全天", "transport": "成都茶店子车站大巴至四姑娘山镇约 4h（¥95）；自驾经都汶高速+G350 约 4h", "tips": "双桥沟最适合普通游客；长坪沟可骑马（¥300–500 往返木骡子）；海拔 3200–3800m 注意高反", "transportDetail": {"metro": "", "bus": "🚌 成都茶店子车站大巴至小金县四姑娘山镇约 4 小时（¥95）", "taxi": "", "drive": "🚗 自驾经都汶高速+G350 约 4 小时（220 公里），山路弯多注意安全", "train": "", "other": "景区内双桥沟观光车全程 ¥150；长坪沟可骑马 ¥300–500 往返"}, "bestSeason": "🍂 10–11 月、🌸 6–8 月", "seasonNote": "秋季雪山+彩林大片频出；夏季草甸野花盛开；冬季可攀冰"}, {"id": "ab4", "city": "阿坝州", "name": "达古冰川", "rating": "⭐4.5", "tags": "冰川·高海拔·咖啡馆·索道", "desc": "全球海拔最低、面积最大的现代山地冰川。乘世界最高客运索道（15 分钟攀升 1200 米）直达 4860 米冰川之巅。山顶有「最孤独的咖啡馆」。冰川脚下有达古湖等高山湖泊。", "highlights": "① 4860 米冰川观景台 ② 云端咖啡馆打卡 ③ 泪湖（冰川融水湖）④ 达古湖 ⑤ 泽娜措彩林倒影 ⑥ 红军桥", "ticket": "旺季 ¥120 / 淡季 ¥60；观光车 ¥70；索道 ¥180（必买）", "hours": "08:30–17:30（15:30 停止入园）", "time": "4–5 小时", "transport": "成都茶店子车站大巴至黑水县约 5h（¥120），打车到景区约 15 分钟；自驾约 5h", "tips": "海拔 4860m 是高反重灾区务必带氧气瓶（¥20–40）；山顶常年零下需羽绒服+手套；索道可能因大风停运", "transportDetail": {"metro": "", "bus": "🚌 成都茶店子车站大巴至黑水县约 5 小时（¥120）", "taxi": "🚕 黑水县城打车至景区约 15 分钟（¥15–20）", "drive": "🚗 自驾成都→都汶高速→茂县→黑水约 5 小时（300 公里）", "train": "", "other": "🚡 景区观光车 ¥70 + 索道 ¥180（必买）；索道 15 分钟爬升 1200 米"}, "bestSeason": "🍂 10–11 月、❄️ 12–2 月", "seasonNote": "秋季彩林+冰川同框；冬季冰川最壮观；索道可能因大风停运随时查天气"}, {"id": "ab5", "city": "阿坝州", "name": "若尔盖草原", "rating": "⭐4.5", "tags": "草原·湿地·夏季最佳·日落·自驾", "desc": "中国三大湿地之一，海拔 3400–3600 米。夏季绿草如茵、格桑花盛开。花湖是核心景区（高原湿地湖泊），黄河九曲第一湾日落被誉为「黄河天上来」。九曲建有 14 级自动观光扶梯。", "highlights": "① 花湖湿地栈道（夏季野花遍地）② 黄河九曲第一湾日落（19:30–20:30）③ 索克藏寺 ④ 黑颈鹤观测（5–9 月）", "ticket": "花湖 ¥75+观光车 ¥30=¥105；黄河九曲 ¥65+扶梯 ¥60=¥125", "hours": "花湖 08:00–18:00 / 九曲 08:00–19:30（看日落可稍晚）", "time": "花湖 2–3h / 九曲 2–3h，两者相距 80 公里（约 1.5h 车程），建议一整天", "transport": "距九寨沟约 5h 车程；建议自驾或包车；成都出发约 8h", "tips": "最佳季节 6 月中旬–8 月中旬；草原温差大做好防晒保暖；九曲看日落要等到 20:00 左右", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 建议自驾或包车。九寨沟至若尔盖约 5 小时；成都出发约 8 小时（经都汶高速→茂县→松潘→若尔盖，500 公里）", "train": "", "other": "花湖与九曲第一湾相距 80 公里（约 1.5 小时车程）；草原内部公共交通不便，强烈建议包车（日租 ¥800–1200）"}, "bestSeason": "🌸 6 月中旬–8 月中旬", "seasonNote": "仅夏季适宜！花季短暂务必踩准时间；其他季节草原枯黄风大"}, {"id": "ab6", "city": "阿坝州", "name": "毕棚沟", "rating": "⭐4.4", "tags": "秋季彩林·近成都·雪山·短途", "desc": "被誉为「四姑娘山的美丽背影」，距成都仅 3 小时车程。核心景观：金字塔雪山倒映卓玛湖、红石滩、磐羊湖。10 月中下旬彩林季漫山红叶黄叶如打翻调色盘。", "highlights": "① 卓玛湖（雪山倒影最佳机位）② 红石滩（罕见红色藻类）③ 磐羊湖（秋季摄影圣地）④ 燕子岩窝 ⑤ 娜姆湖温泉", "ticket": "旺季（4.1–11.30）¥80 / 淡季 ¥60；观光车 ¥60；电瓶车分段约 ¥80", "hours": "08:00–18:00（15:00 停止入园）", "time": "5–6 小时", "transport": "成都茶店子车站大巴至理县约 3h（¥65），打车到景区约 30 分钟；自驾约 3h", "tips": "最美时间 10 月 15–30 日（彩林季），周末人极多建议工作日去；景区内无餐厅需自备午餐", "transportDetail": {"metro": "", "bus": "🚌 成都茶店子车站大巴至理县约 3 小时（¥65）", "taxi": "🚕 理县打车至景区约 30 分钟（¥30–40）", "drive": "🚗 自驾成都→都汶高速→317 国道约 3 小时（200 公里）", "train": "", "other": "景区电瓶车分两段：上海子→磐羊湖 ¥20，磐羊湖→燕子岩窝 ¥20；娜姆湖有温泉酒店"}, "bestSeason": "🍂 10 月 15–30 日（彩林季）", "seasonNote": "彩林季仅 2 周，周末人极多建议工作日去；夏季避暑也不错；冬季雪景"}, {"id": "ls1", "city": "乐山", "name": "乐山大佛", "rating": "⭐4.8", "tags": "世界遗产·必去·高铁方便·游船", "desc": "世界文化遗产，通高 71 米的唐代弥勒佛坐像，开凿于唐开元元年（713 年），历时约 90 年。登山沿九曲栈道从佛头下到佛脚（217 级陡峭石阶，旺季排队 1–2h）；乘游船从岷江上全景观看视角更佳。", "highlights": "① 佛头平台（耳朵长 7 米）② 九曲栈道（惊险单行线）③ 乘船拍全景（睡佛+大佛同框）④ 凌云寺（唐代古寺）⑤ 麻浩崖墓", "ticket": "登山 ¥80 / 游船 ¥70 / 联票 ¥150", "hours": "07:30–18:30（旺季）/ 08:00–17:30（淡季）；游船约每 20 分钟一班", "time": "登山 2–3h / 游船约 30 分钟 / 登山+游船 3–3.5h", "transport": "成都东站高铁至乐山站 46 分钟（¥54）；乐山站乘 3 路/13 路公交或打车（¥20）约 25 分钟", "tips": "旺季九曲栈道排队 1–3h，如时间紧张建议游船；早上 7:30 开门即到可避开人潮", "transportDetail": {"metro": "", "bus": "🚌 乐山站乘 3 路/13 路公交至「乐山大佛」站约 25 分钟（¥2）", "taxi": "🚕 乐山站打车约 20 元（15 分钟）；乐山市区打车约 10–15 元", "drive": "🚗 自驾成乐高速约 1.5 小时（140 公里）；景区有多个停车场 ¥10–20/次", "train": "🚄 成都东站 → 乐山站高铁 46 分钟（¥54），班次密集（6:00–21:00）", "other": "⛴️ 游船码头在大佛景区游客中心旁，约每 20 分钟一班"}, "bestSeason": "🌸 3–5 月、🍂 9–11 月", "seasonNote": "春秋气候宜人，九曲栈道排队相对短；夏季炎热但游船有江风；冬季水量小但游客少"}, {"id": "ls2", "city": "乐山", "name": "峨眉山", "rating": "⭐4.8", "tags": "佛教名山·金顶·日出云海·可住宿", "desc": "中国四大佛教名山之一，普贤菩萨道场。垂直落差 2600 米涵盖完整植被带谱。金顶十方普贤金像高 48 米、重 660 吨。低山区免费，中山区（万年寺、清音阁）半日游，高山区（金顶、雷洞坪）需观光车+索道。", "highlights": "① 金顶十方普贤金像（48 米高）② 金顶日出（5:30–6:30）③ 云海 ④ 万年寺无梁砖殿（宋代奇观）⑤ 清音阁双桥清音 ⑥ 猴群", "ticket": "旺季（1.16–12.14）¥160 / 淡季 ¥110；金顶索道上 ¥65/下 ¥55；观光车全山段 ¥90", "hours": "全天（索道 06:00–18:00，观光车首班 06:00）", "time": "一整天（建议 1–2 天；1 天只走金顶+雷洞坪；2 天加万年寺和清音阁）", "transport": "乐山站高铁至峨眉山站 15 分钟（¥11）；成都东站直达峨眉山站约 1h20min；峨眉山站乘景区大巴至雷洞坪约 2h", "tips": "想看日出必须住金顶或雷洞坪（¥400–1000+，旺季提前 1–2 周订）；猴子会抢食勿手提塑料袋；金顶海拔 3079m", "transportDetail": {"metro": "", "bus": "🚌 峨眉山站乘景区大巴至雷洞坪约 2 小时（全山段 ¥90）", "taxi": "🚕 乐山市至峨眉山打车约 80 元（40 分钟）", "drive": "🚗 自驾至零公里停车场，换乘景区观光车（私家车不能上山）", "train": "🚄 乐山站 → 峨眉山站高铁 15 分钟（¥11）；成都东站 → 峨眉山站约 1 小时 20 分钟（¥65）", "other": "🚡 金顶索道上 ¥65/下 ¥55；万年索道上 ¥65/下 ¥45；山上住宿金顶 ¥400–1000+，雷洞坪 ¥200–500"}, "bestSeason": "🍂 10–11 月（红叶+云海）、❄️ 12–2 月（雪景）", "seasonNote": "春秋最佳；夏季避暑但多雨雾；冬季雪景+云海概率高但冷；金顶日出需住山上"}, {"id": "ls3", "city": "乐山", "name": "东方佛都", "rating": "⭐4.3", "tags": "石刻·卧佛·连游", "desc": "与乐山大佛一墙之隔，大型佛教石刻艺术主题公园。核心展品：世界最长卧佛（170 米依山而凿）、万佛洞（3000 余尊佛像）。与乐山大佛互补——大佛看整体气势，东方佛都看细节多样性。", "highlights": "① 170 米巨型卧佛（世界之最）② 万佛洞（3000+ 佛像）③ 连心山 173 级台阶 ④ 四面佛", "ticket": "¥80（网上预订约 ¥70）", "hours": "08:00–17:30（16:30 停止入园）", "time": "1.5–2 小时", "transport": "与乐山大佛景区相邻步行 5 分钟，可从大佛景区内穿过直接进入", "tips": "性价比一般，时间充裕可去；与乐山大佛连游半天足够", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "", "train": "", "other": "🚶 与乐山大佛山门相邻步行 5 分钟，可从大佛景区内穿过直接进入"}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "与大佛同期游览即可，室内为主不受天气影响"}, {"id": "ls4", "city": "乐山", "name": "嘉阳小火车", "rating": "⭐4.4", "tags": "蒸汽火车·油菜花·拍照·3月最佳", "desc": "世界上唯一仍在运营的窄轨（762mm）蒸汽小火车，全程 19.8 公里穿越油菜花田。3 月油菜花季火车穿行金色花海喷白烟极为出片。终点芭蕉沟是 1930–1980 年代工业古镇，有时光倒流之感。", "highlights": "① 蜜蜂岩「人字形」掉头（中国铁路唯一）② 菜子坝大弯道（最佳拍摄位）③ 亮水沱蒸汽表演 ④ 芭蕉沟工业古镇 ⑤ 黄村井井下探秘", "ticket": "单程 ¥80 / 往返 ¥160；黄村井探秘 ¥80", "hours": "每天 3–4 班（约 10:00/11:00/13:00/14:00 发车）", "time": "半天（往返含游览约 4–5 小时）", "transport": "乐山市区至犍为县嘉阳约 1.5h 车程；建议自驾或包车 ¥300–400 往返；可与罗城古镇连游（相距约 40 分钟）", "tips": "3 月油菜花季绝对旺季需提前买票；亮水沱蒸汽表演时刻表提前确认；芭蕉沟有民宿可住一晚", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 乐山市区至犍为县嘉阳约 1.5 小时车程（70 公里）；建议自驾或包车 ¥300–400 往返", "train": "", "other": "🚂 景区内蒸汽小火车单程 ¥80/往返 ¥160；黄村井探秘 ¥80；公共交通不便需自驾或包车"}, "bestSeason": "🌼 3 月（油菜花季）", "seasonNote": "油菜花季仅 2–3 周（3 月上旬–下旬），务必提前买票；其他季节可游览但体验打折"}, {"id": "ls5", "city": "乐山", "name": "罗城古镇", "rating": "⭐4.2", "tags": "免费·古镇·船形街·茶馆", "desc": "始建于明代崇祯元年（1628 年），主街凉厅街长 209 米形似大船，被誉为「中国的诺亚方舟」。廊下茶馆密集，数百张竹椅沿街而设，保持原汁原味的川南慢生活，没有过度商业化。", "highlights": "① 船形街全景（街口灵官庙俯瞰）② 凉厅街老茶馆喝茶 ③ 古戏楼 ④ 灵官庙 ⑤ 豆腐脑和咔饼（本地小吃）", "ticket": "免费", "hours": "全天开放", "time": "1–2 小时", "transport": "乐山市区至犍为县罗城镇约 1h 车程；可与嘉阳小火车安排在一天（相距约 40 分钟）", "tips": "这是活着的古镇，请尊重当地居民；早晨 8–10 点茶馆最热闹；适合人文摄影", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 乐山市区至犍为县罗城镇约 1 小时车程（50 公里）；可与嘉阳小火车连游（相距约 40 分钟车程）", "train": "", "other": ""}, "bestSeason": "🌤️ 全年适宜", "seasonNote": "春秋最舒适；夏季炎热但凉厅街遮阳效果好；冬季茶馆烤火别有风味"}, {"id": "ls6", "city": "乐山", "name": "黑竹沟", "rating": "⭐4.3", "tags": "原始森林·探险·自驾", "desc": "被称为「中国百慕大」，因地磁异常和指南针失灵现象而神秘。核心景点马里冷旧（彝语「开满鲜花的高山草甸」）海拔 2200–2800 米，有原始森林、高山湿地和瀑布。景区开发度低，保留大量原始风貌。", "highlights": "① 马里冷旧高山湿地（云雾缭绕如仙境）② 石门关（地磁异常核心区）③ 珙桐花（鸽子花，4–5 月）④ 三箭泉瀑布 ⑤ 原始森林徒步", "ticket": "¥60", "hours": "08:30–17:00（16:00 停止入园）", "time": "半天至一整天（半天马里冷旧即可）", "transport": "乐山市区至峨边县黑竹沟约 2.5h 车程（140 公里）；强烈建议自驾或包车；可与峨眉山方向连游（峨眉山到黑竹沟约 1.5h）", "tips": "景区开发度低信号差，适合探险型游客；勿深入未开发区域（GPS 可能失灵）；备好干粮和水", "transportDetail": {"metro": "", "bus": "", "taxi": "", "drive": "🚗 乐山市区至峨边县黑竹沟约 2.5 小时车程（140 公里）；强烈建议自驾或包车", "train": "", "other": "🚶 可与峨眉山方向连游（峨眉山→黑竹沟约 1.5 小时）；景区内需步行，开发度低"}, "bestSeason": "🌸 4–5 月（珙桐花）、🍂 9–11 月", "seasonNote": "春季珙桐花（鸽子花）盛开；秋季天高云淡；雨季（6–8 月）路滑注意安全"}];
+var travelTimes = {"cd1-cd2": 35, "cd1-cd3": 35, "cd1-cd4": 40, "cd1-cd5": 35, "cd1-cd6": 70, "cd1-cd7": 30, "cd1-cd8": 30, "cd2-cd3": 0, "cd2-cd4": 15, "cd2-cd5": 15, "cd2-cd6": 60, "cd2-cd7": 20, "cd2-cd8": 15, "cd3-cd4": 15, "cd3-cd5": 15, "cd3-cd6": 60, "cd3-cd7": 20, "cd3-cd8": 15, "cd4-cd5": 10, "cd4-cd6": 55, "cd4-cd7": 15, "cd4-cd8": 10, "cd5-cd6": 50, "cd5-cd7": 10, "cd5-cd8": 15, "cd6-cd7": 55, "cd6-cd8": 55, "cd7-cd8": 20, "ab1-ab2": 150, "ab1-ab3": 360, "ab1-ab4": 300, "ab1-ab5": 300, "ab1-ab6": 360, "ab2-ab3": 300, "ab2-ab4": 240, "ab2-ab5": 240, "ab2-ab6": 300, "ab3-ab4": 240, "ab3-ab5": 420, "ab3-ab6": 180, "ab4-ab5": 240, "ab4-ab6": 180, "ab5-ab6": 360, "ls1-ls2": 40, "ls1-ls3": 5, "ls1-ls4": 90, "ls1-ls5": 60, "ls1-ls6": 150, "ls2-ls3": 40, "ls2-ls4": 100, "ls2-ls5": 80, "ls2-ls6": 90, "ls3-ls4": 90, "ls3-ls5": 60, "ls3-ls6": 150, "ls4-ls5": 40, "ls4-ls6": 120, "ls5-ls6": 80, "cd1-cd9": 55, "cd2-cd9": 55, "cd3-cd9": 55, "cd4-cd9": 55, "cd5-cd9": 55, "cd6-cd9": 105, "cd7-cd9": 55, "cd8-cd9": 55, "cd1-cd10": 50, "cd10-cd2": 50, "cd10-cd3": 50, "cd10-cd4": 50, "cd10-cd5": 50, "cd10-cd6": 100, "cd10-cd7": 50, "cd10-cd8": 50, "cd1-cd11": 25, "cd11-cd2": 25, "cd11-cd3": 25, "cd11-cd4": 25, "cd11-cd5": 25, "cd11-cd6": 65, "cd11-cd7": 25, "cd11-cd8": 25, "cd10-cd9": 80, "cd11-cd9": 50, "cd10-cd11": 45, "cd9-ls1": 70, "cd9-ls2": 70, "cd9-ls3": 70, "cd9-ls4": 70, "cd9-ls5": 70, "cd9-ls6": 70, "ab1-cd9": 500, "ab2-cd9": 500, "ab3-cd9": 500, "ab4-cd9": 500, "ab5-cd9": 500, "ab6-cd9": 500, "cd10-ls1": 70, "cd10-ls2": 70, "cd10-ls3": 70, "cd10-ls4": 70, "cd10-ls5": 70, "cd10-ls6": 70, "ab1-cd10": 500, "ab2-cd10": 500, "ab3-cd10": 500, "ab4-cd10": 500, "ab5-cd10": 500, "ab6-cd10": 500, "cd11-ls1": 70, "cd11-ls2": 70, "cd11-ls3": 70, "cd11-ls4": 70, "cd11-ls5": 70, "cd11-ls6": 70, "ab1-cd11": 500, "ab2-cd11": 500, "ab3-cd11": 500, "ab4-cd11": 500, "ab5-cd11": 500, "ab6-cd11": 500, "ab1-cd1": 480, "ab2-cd1": 480, "ab3-cd1": 480, "ab4-cd1": 480, "ab5-cd1": 480, "ab6-cd1": 480, "cd1-ls1": 60, "cd1-ls2": 60, "cd1-ls3": 60, "cd1-ls4": 60, "cd1-ls5": 60, "cd1-ls6": 60, "ab1-cd2": 480, "ab2-cd2": 480, "ab3-cd2": 480, "ab4-cd2": 480, "ab5-cd2": 480, "ab6-cd2": 480, "cd2-ls1": 60, "cd2-ls2": 60, "cd2-ls3": 60, "cd2-ls4": 60, "cd2-ls5": 60, "cd2-ls6": 60, "ab1-cd3": 480, "ab2-cd3": 480, "ab3-cd3": 480, "ab4-cd3": 480, "ab5-cd3": 480, "ab6-cd3": 480, "cd3-ls1": 60, "cd3-ls2": 60, "cd3-ls3": 60, "cd3-ls4": 60, "cd3-ls5": 60, "cd3-ls6": 60, "ab1-cd4": 480, "ab2-cd4": 480, "ab3-cd4": 480, "ab4-cd4": 480, "ab5-cd4": 480, "ab6-cd4": 480, "cd4-ls1": 60, "cd4-ls2": 60, "cd4-ls3": 60, "cd4-ls4": 60, "cd4-ls5": 60, "cd4-ls6": 60, "ab1-cd5": 480, "ab2-cd5": 480, "ab3-cd5": 480, "ab4-cd5": 480, "ab5-cd5": 480, "ab6-cd5": 480, "cd5-ls1": 60, "cd5-ls2": 60, "cd5-ls3": 60, "cd5-ls4": 60, "cd5-ls5": 60, "cd5-ls6": 60, "ab1-cd6": 480, "ab2-cd6": 480, "ab3-cd6": 480, "ab4-cd6": 480, "ab5-cd6": 480, "ab6-cd6": 480, "cd6-ls1": 60, "cd6-ls2": 60, "cd6-ls3": 60, "cd6-ls4": 60, "cd6-ls5": 60, "cd6-ls6": 60, "ab1-cd7": 480, "ab2-cd7": 480, "ab3-cd7": 480, "ab4-cd7": 480, "ab5-cd7": 480, "ab6-cd7": 480, "cd7-ls1": 60, "cd7-ls2": 60, "cd7-ls3": 60, "cd7-ls4": 60, "cd7-ls5": 60, "cd7-ls6": 60, "ab1-cd8": 480, "ab2-cd8": 480, "ab3-cd8": 480, "ab4-cd8": 480, "ab5-cd8": 480, "ab6-cd8": 480, "cd8-ls1": 60, "cd8-ls2": 60, "cd8-ls3": 60, "cd8-ls4": 60, "cd8-ls5": 60, "cd8-ls6": 60, "ab1-ls1": 300, "ab1-ls2": 300, "ab1-ls3": 300, "ab1-ls4": 300, "ab1-ls5": 300, "ab1-ls6": 300, "ab2-ls1": 300, "ab2-ls2": 300, "ab2-ls3": 300, "ab2-ls4": 300, "ab2-ls5": 300, "ab2-ls6": 300, "ab3-ls1": 300, "ab3-ls2": 300, "ab3-ls3": 300, "ab3-ls4": 300, "ab3-ls5": 300, "ab3-ls6": 300, "ab4-ls1": 300, "ab4-ls2": 300, "ab4-ls3": 300, "ab4-ls4": 300, "ab4-ls5": 300, "ab4-ls6": 300, "ab5-ls1": 300, "ab5-ls2": 300, "ab5-ls3": 300, "ab5-ls4": 300, "ab5-ls5": 300, "ab5-ls6": 300, "ab6-ls1": 300, "ab6-ls2": 300, "ab6-ls3": 300, "ab6-ls4": 300, "ab6-ls5": 300, "ab6-ls6": 300};
+
+function getTravelTime(id1, id2) {
+  if (id1 === id2) return 0;
+  var k1 = id1 + "-" + id2;
+  var k2 = id2 + "-" + id1;
+  return travelTimes[k1] || travelTimes[k2] || 60;
+}
+
+var weatherData = {"成都": {"spring": {"temp": "12–25°C", "rain": "适中", "desc": "气候温和，花开满城。3–4 月龙泉驿桃花节，5 月蓉城飘槐花。早晚微凉需薄外套。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "summer": {"temp": "22–33°C", "rain": "较多", "desc": "闷热多雨，7–8 月为雨季。午后常有阵雨，出行备伞。景区人流量大（暑假）。", "score": "⭐⭐⭐ 一般"}, "autumn": {"temp": "14–26°C", "rain": "少", "desc": "天高气爽，最舒适季节。银杏金黄（11 月），满城桂花香。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "winter": {"temp": "3–12°C", "rain": "少", "desc": "阴冷潮湿，少有降雪。雾霾天较多需戴口罩。淡季人少体验好，门票有优惠。", "score": "⭐⭐⭐ 一般"}}, "阿坝州": {"spring": {"temp": "0–18°C", "rain": "少", "desc": "高原春季来得晚，4 月仍可能降雪。5 月起草原返青，杜鹃花盛开。昼夜温差极大（0–20°C）。", "score": "⭐⭐⭐⭐ 较好"}, "summer": {"temp": "8–25°C", "rain": "较多", "desc": "避暑胜地！草原最美季节（6–8 月），若尔盖花湖野花遍地。雨季注意塌方和泥石流预警。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "autumn": {"temp": "2–20°C", "rain": "少", "desc": "10 月中下旬彩林季，九寨沟/毕棚沟秋色绝美。天气稳定，摄影黄金期。国庆人流量极大。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "winter": {"temp": "-10–8°C", "rain": "少", "desc": "严寒，高山路段需防滑链。九寨沟淡季门票半价，雪景静谧。达古冰川全年可游。部分景区可能关闭。", "score": "⭐⭐⭐ 一般"}}, "乐山": {"spring": {"temp": "14–26°C", "rain": "适中", "desc": "温暖湿润，油菜花盛开（3 月嘉阳小火车最火）。峨眉山低山区杜鹃花季。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "summer": {"temp": "24–35°C", "rain": "多", "desc": "炎热多雨，闷热感强。峨眉山高山区凉爽（金顶约 15°C），是避暑好去处。", "score": "⭐⭐⭐ 一般"}, "autumn": {"temp": "15–27°C", "rain": "适中", "desc": "秋高气爽，峨眉山红叶（10–11 月）极美。乐山大佛九曲栈道排队相对短。", "score": "⭐⭐⭐⭐⭐ 最佳"}, "winter": {"temp": "5–14°C", "rain": "少", "desc": "阴冷，峨眉山金顶可赏雪景和云海。淡季门票优惠，游客少。", "score": "⭐⭐⭐⭐ 较好"}}};
+
+var cityMeta = {};
+cityMeta["chengdu"] = {name:"成都",icon:"🐼",intro:"天府之国。大熊猫故乡、美食天堂、历史文化名城。建议 2-3 天。",overview:[{icon:"🗓️",value:"2-3 天",label:"建议游玩"},{icon:"🎫",value:"¥50-155",label:"票价区间"},{icon:"🚇",value:"地铁覆盖",label:"市内交通"},{icon:"🌡️",value:"3-33°C",label:"全年温度"},{icon:"📅",value:"春秋最佳",label:"最佳季节"}]};
+cityMeta["aba"] = {name:"阿坝藏族羌族自治州",icon:"🏔️",intro:"川西北高原，世界级自然景观。海拔 2000-4000m，注意高反。建议 3-5 天。",overview:[{icon:"🗓️",value:"3-5 天",label:"建议游玩"},{icon:"🎫",value:"¥60-280",label:"票价区间"},{icon:"🚌",value:"班车+包车",label:"主要交通"},{icon:"🏔️",value:"2000-4000m",label:"海拔范围"},{icon:"📅",value:"夏秋最佳",label:"最佳季节"}]};
+cityMeta["leshan"] = {name:"乐山",icon:"🪷",intro:"世界最大石刻弥勒佛坐像所在地。与峨眉山构成世界双遗产。建议 2-3 天。",overview:[{icon:"🗓️",value:"2-3 天",label:"建议游玩"},{icon:"🎫",value:"¥55-160",label:"主要票价"},{icon:"🚄",value:"高铁 46 min",label:"成都出发"},{icon:"🌡️",value:"5-35°C",label:"全年温度"},{icon:"📅",value:"春秋最佳",label:"最佳季节"}]};
+
+var routePlans = [
+  {title:"经典 6 日三城游（推荐）",days:[
+    {day:"Day 1",text:"成都：上午大熊猫基地 - 下午武侯祠+锦里 - 晚上宽窄巷子+春熙路"},
+    {day:"Day 2",text:"成都：青城山-都江堰一日游（城际列车往返）"},
+    {day:"Day 3",text:"成都-阿坝：早起乘车至九寨沟（约7-9h），傍晚抵达漳扎镇入住"},
+    {day:"Day 4",text:"阿坝：全天九寨沟（7:30入园，17:00出沟）"},
+    {day:"Day 5",text:"阿坝-乐山：上午黄龙（4-5h），下午返成都后高铁至乐山（约1h），住乐山"},
+    {day:"Day 6",text:"乐山：乐山大佛（登山+游船3h）- 下午高铁返成都"}
+  ]},
+  {title:"深度 9 日全景游",days:[
+    {day:"Day 1",text:"成都：大熊猫基地（上午）+ 武侯祠+锦里（下午）+ 宽窄巷子（晚上）"},
+    {day:"Day 2",text:"成都：金沙遗址博物馆（上午）+ 杜甫草堂（下午）+ 春熙路太古里（晚上）"},
+    {day:"Day 3",text:"成都：青城山-都江堰一日游"},
+    {day:"Day 4",text:"成都-九寨沟：乘车/飞机抵达，下午休息适应海拔，住沟口"},
+    {day:"Day 5",text:"阿坝：九寨沟全天"},
+    {day:"Day 6",text:"阿坝：黄龙半日 - 松潘古城住宿或返成都"},
+    {day:"Day 7",text:"乐山：乐山大佛（登山）+ 东方佛都，住乐山"},
+    {day:"Day 8",text:"乐山：全天峨眉山（索道上金顶）或在金顶住一晚看日出"},
+    {day:"Day 9",text:"乐山-成都：犍为嘉阳小火车/罗城古镇（选一），下午返程"}
+  ]},
+  {title:"紧凑 4 日精华游",days:[
+    {day:"Day 1",text:"成都：大熊猫基地+武侯祠+锦里+宽窄巷子（紧凑一日）"},
+    {day:"Day 2",text:"成都-九寨沟：早班机飞九黄机场，中午前入园半日游览"},
+    {day:"Day 3",text:"九寨沟-成都-乐山：上午黄龙3h，飞返成都，高铁至乐山"},
+    {day:"Day 4",text:"乐山：乐山大佛（上午）+ 峨眉山金顶（下午索道上下），返成都"}
+  ]}
+];
+
+
+var cityTips = {};
+cityTips['成都'] = {
+  food: [
+    {title:'火锅',desc:'推荐：小龙坎、大龙燚（连锁）或本地人爱的「电台巷」「蜀大侠」。人均 ¥80–120。微辣已是外地人的极限。必点：毛肚、鹅肠、黄喉、耗儿鱼。'},
+    {title:'串串香',desc:'冷锅串串（冒椒火辣）和热锅串串（钢管厂五区小郡肝）。人均 ¥40–60。魁星楼街是本地人聚集地。'},
+    {title:'小吃清单',desc:'蛋烘糕（¥3–5/个，街头推车最正宗）、甜水面（¥10）、钟水饺（¥15）、赖汤圆（¥12）、担担面（¥12）、三大炮（¥10）、糖油果子（¥5/串）。'},
+    {title:'川菜馆',desc:'陈麻婆豆腐（旗舰店在杜甫草堂北门）、夫妻肺片（总店在春熙路附近）。人均 ¥50–80。'},
+    {title:'茶馆文化',desc:'人民公园鹤鸣茶社（最老牌，盖碗茶 ¥15–30）、宽窄巷子见山书院。掏耳朵 ¥30–60。'}
+  ],
+  money: [
+    '市内交通优先地铁+共享单车（美团/青桔单车 ¥1.5/30min），地铁单程 ¥2–8',
+    '景区门票可提前在携程/美团购买，通常比现场便宜 ¥5–15',
+    '大学生务必携带学生证，大部分景区半价',
+    '成都大多数公园、博物馆周一闭馆，安排行程时避开'
+  ],
+  pack: [
+    '春秋季：薄外套+短袖，早晚温差大（12–26°C）',
+    '夏季：速干衣+防晒衣+雨伞（午后阵雨频繁）',
+    '冬季：薄羽绒服+围巾，室内无暖气湿冷感强',
+    '必备：舒适的步行鞋（成都景点间距大）+ 充电宝 + 驱蚊液（夏季）'
+  ],
+  transport: [
+    '成都双流机场（CTU）距市区约 30 分钟（地铁 10 号线或机场大巴 ¥15）；天府机场（TFU）距市区约 70 分钟（地铁 18 号线 ¥11）',
+    '地铁运营时间约 06:00–23:30，支付宝/微信可直接扫码乘车',
+    '共享单车遍地都是，短距离出行首选',
+    '成都东站是高铁主枢纽，去乐山/峨眉山/广汉（三星堆）均从此出发'
+  ]
+};
+cityTips['阿坝州'] = {
+  food: [
+    {title:'藏族美食',desc:'牦牛肉火锅（¥80–150/人）、酥油茶（咸味，¥10–20）、糌粑、酸奶（酸度极高需加糖）、青稞酒（酒精度低，¥20–40/壶）。'},
+    {title:'羌族美食',desc:'洋芋糍粑（土豆泥制成，蘸蜂蜜或辣椒）、咂酒（用竹管吸饮的发酵酒）、老腊肉炒土豆。理县和茂县一带最正宗。'},
+    {title:'九寨沟/黄龙',desc:'沟口漳扎镇餐饮选择丰富，川菜+藏餐为主。推荐牦牛肉面（¥25–35）。景区内诺日朗中心有自助餐厅（¥60/人）。'},
+    {title:'路边补给',desc:'高原地区自备高热量零食（巧克力、能量棒、坚果）。沿途小卖部可买氧气瓶（¥20–40）、红景天口服液。'}
+  ],
+  money: [
+    '九寨沟/黄龙旺季酒店价格翻 2–3 倍，提前 1 个月以上预订可省钱',
+    '包车日租 ¥600–1000（含油费），4–6 人拼车最划算',
+    '学生证+老年证在阿坝州大部分景区有半价优惠',
+    '淡季（11 月–次年 3 月）九寨沟门票半价 ¥80，酒店价格低至旺季 1/3'
+  ],
+  pack: [
+    '高原必备：冲锋衣（防风防水）、保暖内衣、墨镜（紫外线极强）、防晒霜 SPF50+',
+    '药品清单：红景天（提前 7 天服用）、高原安、布洛芬（缓解高反头痛）、晕车药（山路弯多）、葡萄糖口服液',
+    '九寨沟/黄龙：舒适防滑的登山鞋，自备雨衣（比雨伞方便）',
+    '若尔盖草原：防蚊液（夏季蚊虫多）+ 薄羽绒服（晚上可能 5°C）',
+    '任何季节都带一件厚外套，高原「一日四季」是常态'
+  ],
+  health: [
+    '高原反应预防：到达首日不洗澡、不饮酒、不剧烈运动、多喝水',
+    '海拔 3000m 以上可能出现头痛、失眠、恶心，一般 1–2 天缓解',
+    '严重高反症状（呼吸困难、意识模糊）立即下撤到低海拔并就医',
+    '氧气瓶在成都出发前买好（¥20），景区门口会贵一倍',
+    '川西山路弯道极多，晕车者务必提前 30 分钟服药'
+  ]
+};
+cityTips['乐山'] = {
+  food: [
+    {title:'乐山美食（必吃）',desc:'乐山是四川公认的美食之都。钵钵鸡（叶婆婆，人均 ¥30）、跷脚牛肉（苏稽古镇最正宗，¥30–50）、甜皮鸭（赵鸭子/纪六孃，半只 ¥35）、豆腐脑（九九豆腐脑，¥10）、咔饼（¥8–12/个）。'},
+    {title:'峨眉山美食',desc:'峨眉山脚下的「好吃街」：豆腐脑、咔饼、烧烤、冰粉。山上寺庙有素斋（¥15–30/人）。金顶有餐厅但价格偏高（盒饭 ¥50–80）。'},
+    {title:'乐山小吃地图',desc:'张公桥好吃街（游客多但集中）、嘉兴路（本地人推荐）、东大街（老字号聚集）。推荐：游记肥肠、雷四孃蛋烘糕、海汇源烧麦。'},
+    {title:'犍为美食',desc:'犍为县（嘉阳小火车/罗城古镇所在地）：叶儿粑、牛肉咔饼。罗城古镇凉厅街茶馆喝盖碗茶 ¥5–10。'}
+  ],
+  money: [
+    '乐山大佛游船（¥70）比登山（¥80）便宜且不用排队，视角更佳',
+    '峨眉山金顶住宿很贵，住雷洞坪（¥200–400）次日凌晨徒步或索道上去看日出更省钱',
+    '乐山到峨眉山高铁仅 ¥11（15 分钟），比打车便宜 80%',
+    '乐山美食人均消费低，¥100 可以吃遍街头小吃'
+  ],
+  pack: [
+    '峨眉山：登山鞋必备，山路石阶多且湿滑',
+    '金顶海拔 3079m，即使是夏季山顶温度约 10–15°C，带防风外套',
+    '峨眉山猴群活跃路段（雷洞坪→接引殿）：不要手提食物和塑料袋，背包拉好拉链'
+  ],
+  transport: [
+    '乐山站和峨眉山站是不同的高铁站，买票时注意不要搞混',
+    '乐山大佛景区旺季停车场爆满，建议公交或打车前往',
+    '犍为县（嘉阳小火车/罗城古镇）公共交通不便，建议自驾或包车（约 ¥300–400/天）'
+  ]
+};
+
+var currentTab = "chengdu";
+var selected = new Set();
+
+function renderChecklist() {
+  var cities = ["成都","阿坝州","乐山"];
+  var keys = ["cd","ab","ls"];
+  var h = "";
+  cities.forEach(function(c,i) {
+    h += "<div class=\"city-section\"><h4>"+ c +"</h4>";
+    attractions.filter(function(a){return a.id.indexOf(keys[i])===0;}).forEach(function(a) {
+      var chk = selected.has(a.id) ? "checked" : "";
+      h += "<label class=\"attraction-check\"><input type=\"checkbox\" value=\""+a.id+"\" onchange=\"toggleSelect('"+a.id+"')\" "+chk+"><span class=\"name\">"+a.name+"</span><span class=\"day-hint\">"+a.time+"</span></label>";
+    });
+    h += "</div>";
+  });
+  document.getElementById("checklist").innerHTML = h;
+  updateCount();
+}
+
+function toggleSelect(id) {
+  if (selected.has(id)) selected.delete(id); else selected.add(id);
+  updateCount();
+}
+
+function updateCount() {
+  document.getElementById("selectedCount").textContent = "已选 "+selected.size+" 个";
+  document.getElementById("btnPlan").disabled = selected.size === 0;
+}
+
+function clearAll() {
+  selected.clear();
+  renderChecklist();
+  document.getElementById("tabContent").innerHTML = renderCity(currentTab);
+  var rp = document.querySelector(".result-panel");
+  if (rp) rp.classList.remove("show");
+}
+
+function renderWeather(cityKey) {
+  var w = weatherData[cityKey];
+  if (!w) return "";
+  var seasons = ["spring","summer","autumn","winter"];
+  var labels = {"spring":"🌸 春季 3-5月","summer":"☀️ 夏季 6-8月","autumn":"🍂 秋季 9-11月","winter":"❄️ 冬季 12-2月"};
+  var h = "<div class=\"weather-panel\"><h4>📅 四季天气</h4><div class=\"weather-grid\">";
+  seasons.forEach(function(s) {
+    var d = w[s];
+    h += "<div class=\"weather-card\"><div class=\"w-label\">"+labels[s]+"</div>";
+    h += "<div class=\"w-temp\">🌡️ "+d.temp+"</div>";
+    h += "<div class=\"w-rain\">🌧️ 降水："+d.rain+"</div>";
+    h += "<div class=\"w-desc\">"+d.desc+"</div>";
+    h += "<div class=\"w-score\">"+d.score+"</div></div>";
+  });
+  h += "</div></div>";
+  return h;
+}
+
+function renderTransportDetail(td) {
+  if (!td) return "";
+  var h = "<div class=\"transport-detail\">";
+  var keys = ["train","metro","bus","taxi","drive","other"];
+  keys.forEach(function(k) {
+    if (td[k] && td[k].trim()) {
+      h += "<div class=\"td-item\">"+td[k]+"</div>";
+    }
+  });
+  h += "</div>";
+  return h;
+}
+
+
+function renderTips(cityKey) {
+  var tips = cityTips[cityKey];
+  if (!tips) return '';
+  var h = '<div class="tips-mega-panel"><h4>💡 实用锦囊</h4>';
+  // Food section
+  if (tips.food) {
+    h += '<div class="tips-section"><h5>🍜 美食推荐</h5><div class="tips-grid">';
+    tips.food.forEach(function(f) {
+      h += '<div class="tip-card"><strong>'+f.title+'</strong><p>'+f.desc+'</p></div>';
+    });
+    h += '</div></div>';
+  }
+  // Money section
+  if (tips.money) {
+    h += '<div class="tips-section"><h5>💰 省钱攻略</h5><ul class="tip-list">';
+    tips.money.forEach(function(t) { h += '<li>'+t+'</li>'; });
+    h += '</ul></div>';
+  }
+  // Pack section
+  if (tips.pack) {
+    h += '<div class="tips-section"><h5>🎒 装备清单</h5><ul class="tip-list">';
+    tips.pack.forEach(function(t) { h += '<li>'+t+'</li>'; });
+    h += '</ul></div>';
+  }
+  // Health section
+  if (tips.health) {
+    h += '<div class="tips-section"><h5>🏥 健康与安全</h5><ul class="tip-list">';
+    tips.health.forEach(function(t) { h += '<li>'+t+'</li>'; });
+    h += '</ul></div>';
+  }
+  // Transport tips
+  if (tips.transport) {
+    h += '<div class="tips-section"><h5>🚗 交通贴士</h5><ul class="tip-list">';
+    tips.transport.forEach(function(t) { h += '<li>'+t+'</li>'; });
+    h += '</ul></div>';
+  }
+  h += '</div>';
+  return h;
+}
+
+function renderCity(city) {
+  var cityKey = city==="chengdu"?"成都":city==="aba"?"阿坝州":"乐山";
+  var meta = cityMeta[city];
+  var prefix = city==="chengdu"?"cd":city==="aba"?"ab":"ls";
+  var atts = attractions.filter(function(a){return a.id.indexOf(prefix)===0;});
+  var h = "<div class=\"section-intro\"><h2>"+meta.icon+" "+meta.name+"</h2><p>"+meta.intro+"</p></div>";
+  h += "<div class=\"overview-grid\">";
+  meta.overview.forEach(function(o) {
+    h += "<div class=\"overview-card\"><div class=\"icon\">"+o.icon+"</div><div class=\"value\">"+o.value+"</div><div class=\"label\">"+o.label+"</div></div>";
+  });
+  h += "</div>";
+  h += renderWeather(cityKey);
+  h += "<div class=\"attraction-list\">";
+  atts.forEach(function(a,i) {
+    h += "<div class=\"attraction-card\" id=\"card-"+a.id+"\"><div class=\"card-header\"><span class=\"rank\">"+(i+1)+"</span><h3>"+a.name+"</h3><span class=\"rating\">"+a.rating+"</span></div>";
+    h += "<div class=\"card-body\"><p class=\"desc\">"+a.desc+"</p>";
+    h += "<div class=\"highlights-box\"><strong>✨ 必看亮点</strong><br>"+a.highlights+"</div>";
+    h += "<div class=\"info-grid\">";
+    h += "<div class=\"info-item\"><span class=\"info-label\">🎫 门票价格</span><span class=\"info-value\">"+a.ticket+"</span></div>";
+    h += "<div class=\"info-item\"><span class=\"info-label\">🕐 运营时间</span><span class=\"info-value\">"+a.hours+"</span></div>";
+    h += "<div class=\"info-item\"><span class=\"info-label\">⏱️ 建议游玩</span><span class=\"info-value\">"+a.time+"</span></div>";
+    h += "<div class=\"info-item\"><span class=\"info-label\">📅 最佳季节</span><span class=\"info-value\">"+(a.bestSeason||"")+"</span></div>";
+    h += "<div class=\"info-item transport\"><span class=\"info-label\">🚌 交通方式</span><div class=\"info-value\">"+renderTransportDetail(a.transportDetail)+"</div></div>";
+    h += "</div>";
+    if (a.seasonNote) {
+      h += "<div class=\"season-note-box\"><strong>🌤️ 季节提示：</strong>"+a.seasonNote+"</div>";
+    }
+    h += "<div class=\"tips-box-card\"><strong>💡 实用贴士：</strong>"+a.tips+"</div>";
+    h += "<div class=\"tag-list\">";
+    a.tags.split("·").forEach(function(t) { h += "<span class=\"tag\">"+t.trim()+"</span>"; });
+    h += "</div></div></div>";
+  });
+  h += "</div>";
+  return h;
+}
+
+function renderPlanner() {
+  var h = "<div class=\"section-intro\"><h2>🗺️ 路线概览 & 交通指南</h2><p>预制路线供参考，也可在左侧自选景点生成个性化路线</p></div>";
+  h += "<div class=\"warning-box\"><strong>🚄 交通衔接速查</strong><br>";
+  h += "• <strong>成都 ↔ 乐山：</strong>高铁 46 分钟（¥54），班次 6:00-21:00，最便捷<br>";
+  h += "• <strong>成都 ↔ 九寨沟：</strong>大巴 7-9h（¥150-180）或飞机 1h（¥600-1200）<br>";
+  h += "• <strong>成都 ↔ 四姑娘山/毕棚沟：</strong>大巴 3-4h，适合短途<br>";
+  h += "• <strong>乐山 ↔ 峨眉山：</strong>高铁 15 分钟（¥11）或打车 40 分钟<br>";
+  h += "• <strong>阿坝州内部：</strong>景点分散，建议包车（日租 ¥600-1000）或自驾</div>";
+  h += "<div style=\"display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:20px;\">";
+  routePlans.forEach(function(r) {
+    h += "<div style=\"background:#faf5ef;border-radius:12px;padding:22px;border-left:5px solid #c0392b;\"><h4 style=\"color:#c0392b;margin-bottom:10px;\">"+r.title+"</h4>";
+    r.days.forEach(function(d) {
+      h += "<span style=\"display:inline-block;background:#c0392b;color:#fff;padding:3px 12px;border-radius:12px;font-size:0.78rem;font-weight:700;margin-bottom:6px;\">"+d.day+"</span><ul style=\"list-style:none;padding:0 0 0 8px;\"><li style=\"font-size:0.85rem;color:#5a6c7d;padding:3px 0;\">"+d.text+"</li></ul>";
+    });
+    h += "</div>";
+  });
+  h += "</div>";
+  h += "<div class=\"warning-box\" style=\"margin-top:20px;\"><strong>⚠️ 重要提示</strong><br>";
+  h += "• 九寨沟每天限流 4.1 万人，务必提前 7 天在「阿坝旅游网」公众号实名预约<br>";
+  h += "• 阿坝州高海拔地区注意预防高原反应：提前备红景天、氧气瓶，首日勿剧烈运动勿饮酒<br>";
+  h += "• 节假日（五一、国庆、春节）景区人流量极大，建议避开<br>";
+  h += "• 峨眉山金顶住宿旺季一房难求，需提前 1-2 周预订<br>";
+  h += "• 川西山区雨季（6-8 月）注意塌方和泥石流预警，冬季高山路段需防滑链<br>";
+  h += "• 所有票价和运营时间均为参考，出行前请通过各景区官方平台确认最新信息</div>";
+  return h;
+}
+
+function generatePlan() {
+  var ids = Array.from(selected);
+  if (ids.length === 0) return;
+  var sel = ids.map(function(id){return attractions.find(function(a){return a.id===id;});}).filter(Boolean);
+  var groups = {};
+  sel.forEach(function(a) {
+    if (!groups[a.city]) groups[a.city] = [];
+    groups[a.city].push(a);
+  });
+  var cityOrder = ["成都","阿坝州","乐山"];
+  var sortedCities = cityOrder.filter(function(c){return groups[c];});
+  var routes = [];
+  var totalTravel = 0;
+  sortedCities.forEach(function(city) {
+    var remaining = groups[city].slice();
+    var ordered = [];
+    var current = remaining.shift();
+    ordered.push(Object.assign({}, current, {travelFromPrev: 0}));
+    while (remaining.length > 0) {
+      var nearestIdx = 0;
+      var nearestTime = Infinity;
+      remaining.forEach(function(a, i) {
+        var t = getTravelTime(current.id, a.id);
+        if (t < nearestTime) { nearestTime = t; nearestIdx = i; }
+      });
+      var next = remaining.splice(nearestIdx, 1)[0];
+      ordered.push(Object.assign({}, next, {travelFromPrev: nearestTime}));
+      totalTravel += nearestTime;
+      current = next;
+    }
+    routes.push({ city: city, attractions: ordered });
+  });
+  for (var i = 1; i < sortedCities.length; i++) {
+    var prevLast = routes.filter(function(r){return r.city===sortedCities[i-1];})[0].attractions.slice(-1)[0];
+    var currFirst = routes.filter(function(r){return r.city===sortedCities[i];})[0].attractions[0];
+    var interTime = getTravelTime(prevLast.id, currFirst.id);
+    totalTravel += interTime;
+    currFirst.travelFromPrev = interTime;
+  }
+  var totalHours = 0;
+  sel.forEach(function(a) {
+    var m = a.time.match(/(\d+)/g);
+    if (m) totalHours += parseInt(m[0]) + (m.length>1?parseInt(m[1]):0)*0.5;
+  });
+  totalHours += totalTravel / 60;
+  var estDays = Math.ceil(totalHours / 8);
+  var ticketSum = sel.reduce(function(s,a){var m=a.ticket.match(/¥(\d+)/);return s+(m?parseInt(m[1]):0);},0);
+  var h = "<div class=\"result-panel show\" id=\"resultPanel\">";
+  h += "<h2>🗺️ 你的专属路线</h2>";
+  h += "<div class=\"result-summary\">";
+  h += "<div class=\"result-stat\"><div class=\"big\">"+sel.length+"</div><div class=\"lbl\">景点</div></div>";
+  h += "<div class=\"result-stat\"><div class=\"big\">"+sortedCities.length+"</div><div class=\"lbl\">城市</div></div>";
+  h += "<div class=\"result-stat\"><div class=\"big\">"+(totalTravel/60).toFixed(1)+"h</div><div class=\"lbl\">总交通时间</div></div>";
+  h += "<div class=\"result-stat\"><div class=\"big\">"+estDays+"</div><div class=\"lbl\">建议天数</div></div>";
+  h += "<div class=\"result-stat\"><div class=\"big\">¥"+ticketSum+"+</div><div class=\"lbl\">预估门票</div></div>";
+  h += "</div>";
+  routes.forEach(function(route, ri) {
+    h += "<div class=\"day-plan\"><h4>📍 "+route.city+"</h4>";
+    route.attractions.forEach(function(a, i) {
+      var travelStr = "";
+      if (i > 0 || (ri > 0 && i === 0)) {
+        var mins = a.travelFromPrev;
+        travelStr = mins >= 60 ? "← "+(mins/60).toFixed(1)+"h 交通" : "← "+mins+"min 交通";
+      }
+      h += "<div class=\"route-step\"><span class=\"seq\">"+(i+1)+"</span><span>"+a.name+" <span style=\"color:#999;font-size:0.8rem;\">("+a.time+")</span></span><span class=\"travel-time\">"+travelStr+"</span></div>";
+    });
+    h += "</div>";
+  });
+  h += "<div class=\"warning-box\"><strong>📌 说明</strong><br>";
+  h += "• 路线按城市分组（成都→阿坝→乐山），市内景点按最短交通时间排序<br>";
+  h += "• 建议天数已考虑游玩时间和交通时间，仅供参考<br>";
+  h += "• 实际出行请考虑景区限流、天气、个人体力等因素灵活调整<br>";
+  h += "• 跨城交通：成都↔乐山优先高铁，成都↔阿坝优先飞机（省时）或大巴（省钱）</div>";
+  h += "</div>";
+  var existing = document.getElementById("resultPanel");
+  if (existing) existing.remove();
+  var tc = document.getElementById("tabContent");
+  tc.innerHTML = h + renderCity(currentTab);
+  document.querySelector(".result-panel").scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function switchTab(tab) {
+  currentTab = tab;
+  var btns = document.querySelectorAll("nav.tabs button");
+  btns.forEach(function(b){b.classList.remove("active");});
+  var btn = document.querySelector("button[data-tab=\""+tab+"\"]");
+  if (btn) btn.classList.add("active");
+  var content = document.getElementById("tabContent");
+  var html = tab === "planner" ? renderPlanner() : renderCity(tab);
+  var rp = document.getElementById("resultPanel");
+  if (rp) {
+    content.innerHTML = "";
+    content.appendChild(rp);
+    var div = document.createElement("div");
+    div.innerHTML = html;
+    content.appendChild(div);
+  } else {
+    content.innerHTML = html;
+  }
+}
+
+document.getElementById("tabNav").addEventListener("click", function(e) {
+  if (e.target.tagName === "BUTTON" && e.target.dataset.tab) {
+    switchTab(e.target.dataset.tab);
+  }
+});
+
+renderChecklist();
+switchTab("chengdu");
+
+</script>
+</body>
+</html>
