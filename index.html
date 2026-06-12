@@ -121,6 +121,16 @@ nav.tabs button.active::after { content: ""; position: absolute; bottom: 0; left
 
 footer { text-align: center; padding: 36px 24px; color: #aaa; font-size: 0.82rem; border-top: 1px solid var(--border); margin-top: 40px; }
 @media (max-width: 960px) { .app-layout { flex-direction: column; } .sidebar { width: 100%; min-width: unset; position: relative; top: auto; height: auto; max-height: 50vh; border-right: none; border-bottom: 1px solid var(--border); } .main-content { padding: 16px; } .hero h1 { font-size: 1.6rem; } nav.tabs button { padding: 12px 16px; font-size: 0.85rem; } }
+
+.zone-recommend{background:linear-gradient(135deg,#f0fdf4 0%,#dcfce7 100%);border:1px solid #86efac;border-radius:12px;padding:18px 20px;margin-bottom:20px;}
+.zone-recommend h4{font-size:1.1em;color:#166534;margin:0 0 12px 0;}
+.zone-card{background:white;border-radius:8px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,0.06);}
+.zone-card:last-child{margin-bottom:0;}
+.zone-card strong{color:#065f46;font-size:1.05em;}
+.zone-price{background:#d1fae5;color:#065f46;padding:2px 10px;border-radius:20px;font-size:0.85em;margin-left:8px;}
+.zone-card p{margin:6px 0 0 0;color:#4b5563;font-size:0.9em;}
+.zone-tip{display:inline-block;margin-top:6px;font-size:0.85em;color:#059669;background:#ecfdf5;padding:3px 10px;border-radius:6px;}
+.zone-departure{display:block;font-size:0.85em;color:#059669;margin-bottom:8px;padding:6px 12px;background:#ecfdf5;border-radius:6px;border-left:3px solid #10b981;}
 </style>
 </head>
 <body>
@@ -190,6 +200,11 @@ function hasMondayClosure(hoursStr) {
   return hoursStr.indexOf('周一') >= 0 || hoursStr.indexOf('Monday') >= 0;
 }
 
+function getZoneTravelTime(zoneId,attractionId){var zt=zonesData.zone_times[zoneId];if(zt&&zt[attractionId]!==undefined)return zt[attractionId];return getTravelTime(zoneId,attractionId);}
+
+var zonesData = {"zones": {"成都": [{"id": "zone_cd1", "name": "春熙路/太古里商圈", "desc": "成都最核心商圈，地铁枢纽，去任何景点都方便", "price": "¥300-800/晚", "tip": "位置绝佳但价格最高"}, {"id": "zone_cd2", "name": "宽窄巷子/人民公园片区", "desc": "老成都氛围最浓，去武侯祠、锦里、杜甫草堂都很近", "price": "¥200-600/晚", "tip": "奎星楼街是本地美食聚集地"}, {"id": "zone_cd3", "name": "武侯祠/高升桥片区", "desc": "三国文化核心区，紧邻锦里，地铁3/5号线交汇", "price": "¥200-500/晚", "tip": "适合三国文化+大熊猫为主要目标的行程"}, {"id": "zone_cd4", "name": "高新区/世纪城", "desc": "离市中心略远但去龙泉山高空栈道最近", "price": "¥300-700/晚", "tip": "重点去龙泉山和天府艺术公园则住这里"}], "阿坝州": [{"id": "zone_ab1", "name": "九寨沟沟口（漳扎镇）", "desc": "紧邻九寨沟景区入口，步行可达", "price": "¥200-800/晚", "tip": "旺季翻2-3倍，务必提前1个月以上预订"}, {"id": "zone_ab2", "name": "松潘古城", "desc": "九寨沟与黄龙之间，海拔2850m", "price": "¥150-400/晚", "tip": "九寨沟+黄龙连游性价比高"}, {"id": "zone_ab3", "name": "四姑娘山镇", "desc": "四姑娘山景区门口藏族小镇", "price": "¥150-400/晚", "tip": "海拔3200m注意高反"}, {"id": "zone_ab4", "name": "黑水县城", "desc": "达古冰川和毕棚沟之间", "price": "¥150-350/晚", "tip": "县城吃的比景区门口便宜很多"}], "乐山": [{"id": "zone_ls1", "name": "乐山市区（张公桥/嘉兴路）", "desc": "美食天堂核心区！离乐山大佛仅15分钟", "price": "¥150-400/晚", "tip": "乐山住宿性价比最高，强烈推荐住一晚"}, {"id": "zone_ls2", "name": "峨眉山山脚（报国寺片区）", "desc": "峨眉山景区入口，温泉酒店集中", "price": "¥200-600/晚", "tip": "选有温泉的酒店，爬完山泡温泉"}, {"id": "zone_ls3", "name": "峨眉山金顶/雷洞坪", "desc": "看日出必住！出门就是十方普贤金像", "price": "¥400-1000+/晚", "tip": "旺季务必提前1-2周订，金顶海拔3079m"}]}, "zone_times": {"zone_cd1": {"cd1": 35, "cd2": 15, "cd3": 15, "cd4": 10, "cd5": 15, "cd6": 60, "cd7": 25, "cd8": 0, "cd9": 50, "cd10": 50, "cd11": 20}, "zone_cd2": {"cd1": 35, "cd2": 10, "cd3": 10, "cd4": 0, "cd5": 5, "cd6": 55, "cd7": 10, "cd8": 10, "cd9": 55, "cd10": 50, "cd11": 10}, "zone_cd3": {"cd1": 30, "cd2": 0, "cd3": 0, "cd4": 15, "cd5": 10, "cd6": 60, "cd7": 15, "cd8": 15, "cd9": 50, "cd10": 45, "cd11": 20}, "zone_cd4": {"cd1": 45, "cd2": 20, "cd3": 20, "cd4": 20, "cd5": 25, "cd6": 65, "cd7": 30, "cd8": 20, "cd9": 35, "cd10": 60, "cd11": 15}, "zone_ab1": {"ab1": 5, "ab2": 150, "ab3": 360, "ab4": 300, "ab5": 300, "ab6": 360}, "zone_ab2": {"ab1": 120, "ab2": 40, "ab3": 280, "ab4": 180, "ab5": 200, "ab6": 280}, "zone_ab3": {"ab1": 360, "ab2": 300, "ab3": 5, "ab4": 240, "ab5": 420, "ab6": 180}, "zone_ab4": {"ab1": 300, "ab2": 240, "ab3": 240, "ab4": 15, "ab5": 240, "ab6": 180}, "zone_ls1": {"ls1": 15, "ls2": 40, "ls3": 15, "ls4": 90, "ls5": 60, "ls6": 150}, "zone_ls2": {"ls1": 40, "ls2": 5, "ls3": 40, "ls4": 100, "ls5": 80, "ls6": 90}, "zone_ls3": {"ls1": 120, "ls2": 0, "ls3": 120, "ls4": 180, "ls5": 160, "ls6": 170}}};
+function findBestZones(selectedIds){var cities=['成都','阿坝州','乐山'];var result={};cities.forEach(function(city){var cz=zonesData.zones[city];if(!cz)return;var cids=selectedIds.filter(function(id){var a=attractions.find(function(x){return x.id===id;});return a&&a.city===city;});if(cids.length===0)return;var best=null,bt=Infinity;cz.forEach(function(z){var t=0;cids.forEach(function(aid){t+=getZoneTravelTime(z.id,aid);});if(t<bt){bt=t;best=z;}});result[city]={zone:best,totalTime:bt};});return result;}
+function getTransportBetweenZone(zone,attraction,mins){if(mins<=5)return "步行 "+mins+"min";if(mins<=15)return "步行约 "+mins+"min";if(mins<=30)return "地铁约 "+mins+"min，或打车15-25元";if(mins<=60)return "打车约 "+mins+"min（30-60元）";return "自驾/打车约 "+(mins/60).toFixed(1)+"h";}
 function getTransportBetween(a1, a2, travelMins) {
   var sameCity = a1.city === a2.city;
   if (!sameCity) {
@@ -576,6 +591,17 @@ function generatePlan() {
   sel.forEach(function(a) {
     if (hasMondayClosure(a.hours)) mondayClosed.push(a.name);
   });
+  var bestZones = findBestZones(ids);
+  var zoneHTML = "";
+  if (Object.keys(bestZones).length > 0) {
+    zoneHTML += '<div class="zone-recommend"><h4>' + String.fromCharCode(0x1F3E8) + ' 推荐住宿区域</h4>';
+    Object.keys(bestZones).forEach(function(city){
+      var bz = bestZones[city];
+      zoneHTML += '<div class="zone-card"><strong>'+city+'</strong> '+bz.zone.name+' <span class="zone-price">'+bz.zone.price+'</span><p>'+bz.zone.desc+'</p><span class="zone-tip">' + String.fromCharCode(0x1F4CC) + ' '+bz.zone.tip+'</span></div>';
+    });
+    zoneHTML += '</div>';
+  }
+
   
   var h = "<div class=\"result-panel show\" id=\"resultPanel\">";
   h += "<h2>你的专属路线</h2>";
@@ -586,14 +612,22 @@ function generatePlan() {
   h += "<div class=\"result-stat\"><div class=\"big\">"+estDays+"</div><div class=\"lbl\">建议天数</div></div>";
   h += "<div class=\"result-stat\"><div class=\"big\">"+ticketSum+"+</div><div class=\"lbl\">预估门票(元)</div></div>";
   h += "</div>";
-  routes.forEach(function(route, ri) {
+  h += zoneHTML;
+    routes.forEach(function(route, ri) {
+    if (ri === 0 && bestZones && bestZones[route.city]) {
+      h += '<div class="zone-departure">' + String.fromCharCode(0x1F3E8) + ' 从推荐住宿区 '+bestZones[route.city].zone.name+' 出发</div>';
+    }
     h += "<div class=\"day-plan\"><h4>"+route.city+"</h4>";
     route.attractions.forEach(function(a, i) {
       var travelStr = "";
       var transportMethod = "";
-      if (i > 0 || (ri > 0 && i === 0)) {
+      if (i > 0 || (ri > 0 && i === 0) || (ri === 0 && i === 0)) {
         var mins = a.travelFromPrev;
         var prev = i > 0 ? route.attractions[i-1] : (ri > 0 ? routes[ri-1].attractions.slice(-1)[0] : null);
+        if (ri === 0 && i === 0 && bestZones && bestZones[route.city]) {
+          transportMethod = getTransportBetweenZone(bestZones[route.city].zone, a, getZoneTravelTime(bestZones[route.city].zone.id, a.id));
+          mins = getZoneTravelTime(bestZones[route.city].zone.id, a.id);
+        }
         if (prev) {
           transportMethod = getTransportBetween(prev, a, mins);
         }
